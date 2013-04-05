@@ -1,0 +1,26 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+
+public class WordSearch {
+	public static void main(String args[]) throws FileNotFoundException{
+		char[][] puzzle;
+		String currword;
+		
+		File wordsearchFile = new File(System.getProperty("user.dir")+"word-search.txt");
+		Scanner fileScanner = new Scanner(wordsearchFile);
+		
+		int rows = 0;
+		int columns = 0;
+		while(fileScanner.next() != "\n"){
+			columns++;
+		}
+		while(!fileScanner.nextLine().isEmpty()){
+			rows++;
+		}
+		System.out.println("Rows:"+rows);
+		System.out.println("Columns:"+columns);
+
+	}
+}
