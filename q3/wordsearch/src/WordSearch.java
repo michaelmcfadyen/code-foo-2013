@@ -18,7 +18,8 @@ public class WordSearch {
 		int columns = 0;
 		
 		Scanner lineScanner = new Scanner(columnScanner.nextLine());
-		
+		System.out.println("Hi2");
+
 		//getting the dimensions of the wordsearch
 		while(lineScanner.hasNext()){
 			columns++;
@@ -26,6 +27,8 @@ public class WordSearch {
 		while(!rowScanner.nextLine().isEmpty()){
 			rows++;
 		}
+		System.out.println(rows);
+		System.out.println(columns);
 		puzzle = new String[rows][columns];
 
 		puzzle = setUp(puzzle,wordsearchFile);
