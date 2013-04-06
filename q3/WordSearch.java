@@ -8,9 +8,7 @@ import java.awt.Point;
 public class WordSearch {
 	
 	static char[][] puzzle;
-	static int rows;	
-	static int columns;
-
+	
 	public static void main(String args[]) throws FileNotFoundException{
 
 		File wordsearchFile = new File(System.getProperty("user.dir")+"/word-search.txt");
@@ -18,13 +16,11 @@ public class WordSearch {
 		Scanner columnScanner = new Scanner(wordsearchFile);
 		Scanner rowScanner = new Scanner (wordsearchFile);
 		
-		rows = 0;
-		columns = 0;
-		
 		Scanner lineScanner = new Scanner(columnScanner.nextLine());
 
-		//getting the dimensions of the wordsearch
-
+		int rows = 0;
+		int columns = 0;
+		//get the dimensions of the wordsearch
 		while(lineScanner.hasNext()){
 			lineScanner.next();
 			columns++;
@@ -32,20 +28,10 @@ public class WordSearch {
 		while(!rowScanner.nextLine().isEmpty()){
 			rows++;
 		}
-		System.out.println(rows);
-		System.out.println(columns);
+
 		puzzle = new char[rows][columns];
 
 		setUp(wordsearchFile);
-		
-		//retrieve one word at a time from text and search for it in array
-		//if we find a match for first letter we need to check all 8(start with four) directions
-	
-		//for(int i =0 ; i < rows; i++){
-		//	for(int j = 0; j< columns;j++){
-		//		System.out.println(puzzle[i][j]);
-		//	}
-		//}
 		
 		String word;
 		boolean found;
@@ -94,12 +80,18 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 		return puzzle;
 	}
 
-	//initially only search four directions, north, east , south, west.
+	//search all eight directions off of the initial letter
+	//returns true if the word is found in one direction
+	//returns false if the word is not found in any direction
 	public static boolean searchAllDir(int x, int y, char[] wordToSearch){
 		Point north = Direction.NORTH.fromPos(x,y);
 		Point south = Direction.SOUTH.fromPos(x,y);
 		Point east = Direction.EAST.fromPos(x,y);
 		Point west = Direction.WEST.fromPos(x,y);
+		Point northeast = Direction.NORTHEAST.fromPos(x,y);
+		Point northwest = Direction.NORTHWEST.fromPos(x,y);
+		Point southeast = Direction.SOUTHEAST.fromPos(x,y);
+		Point southwest = Direction.SOUTHWEST.fromPos(x,y);
 
 		if(searchOneDir(north, Direction.NORTH, wordToSearch))
 			return true;
@@ -109,11 +101,22 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 			return true;
 		if(searchOneDir(west, Direction.WEST, wordToSearch))
 			return true;
+		if(searchOneDir(northeast, Direction.NORTHEAST, wordToSearch))
+			return true;
+		if(searchOneDir(northwest, Direction.NORTHWEST, wordToSearch))
+			return true;
+		if(searchOneDir(southeast, Direction.SOUTHEAST, wordToSearch))
+			return true;
+		if(searchOneDir(southwest, Direction.SOUTHWEST, wordToSearch))
+			return true;
 
 		return false; //no match found
 		
 	}
 
+	//searches one of the directions until either a mismatch is found of the entire word is found
+	//returns true if all letters are matched 
+	//returns false if a mismatch is found
 	public static boolean searchOneDir(Point p, Direction d, char[] wordToSearch){
 		int i = 1;
 		while(i < wordToSearch.length){
@@ -122,18 +125,23 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 				i++;
 			}
 			else
-				return false; //mismatch in chars, word not found
+				return false; 	//mismatch in chars, word not found
 		}
-		return true; //word found
+		return true; 			//no mismatches and traversed full word, so word found
 	}
 
+	//checks whether a point is inside the boundary of the wordsearch
+	//returns true if point is inside boundary
+	//returns false if point is outside of boundary
 	public static boolean isValid(Point p){
-		if(p.x >= 0 && p.x < rows && p.y >= 0 && p.y < columns){return true;}
-		else{return false;}
+		if(p.x >= 0 && p.x < puzzle.length && p.y >= 0 && p.y < puzzle[0].length)
+			return true;
+		else
+			return false;
 	}
 
 	public enum Direction {
-	NORTH, SOUTH, EAST, WEST;
+	NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST;
 
 	public Point fromPos(int x, int y) {
 		switch (this) {
@@ -143,10 +151,18 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 			return new Point(x + 1, y);
 		case WEST:
 			return new Point(x, y - 1);
+		case NORTHEAST:
+			return new Point(x - 1, y + 1);
+		case NORTHWEST:
+			return new Point(x - 1, y - 1);
+		case SOUTHEAST:
+			return new Point(x + 1, y + 1);
+		case SOUTHWEST:
+			return new Point(x + 1, y - 1);
 		default:
 			return new Point(x, y + 1);
 		}
 	}
 
-}
+    }
 }

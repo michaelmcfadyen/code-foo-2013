@@ -1,14 +1,22 @@
+import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.awt.Point;
-
 
 
 public class WordSearch {
-	
-	static char[][] puzzle;
-	
+	char[][] puzzle;
+	int rows;	
+	int columns;
+
+	public WordSearch(int rows, int columns){
+		puzzle = new char[rows][columns];
+		this.rows = rows;
+		this.columns = columns;
+	}
+	public char[][] getPuzzle(){
+		return puzzle;
+	}	
 	public static void main(String args[]) throws FileNotFoundException{
 
 		File wordsearchFile = new File(System.getProperty("user.dir")+"/word-search.txt");
@@ -21,7 +29,7 @@ public class WordSearch {
 		
 		Scanner lineScanner = new Scanner(columnScanner.nextLine());
 
-		//get the dimensions of the wordsearch
+		//getting the dimensions of the wordsearch
 
 		while(lineScanner.hasNext()){
 			lineScanner.next();
@@ -30,10 +38,20 @@ public class WordSearch {
 		while(!rowScanner.nextLine().isEmpty()){
 			rows++;
 		}
+		System.out.println(rows);
+		System.out.println(columns);
+		WordSearch w = new WordSearch(rows, columns);
 
-		puzzle = new char[rows][columns];
-
-		setUp(wordsearchFile);
+		w.setUp(wordsearchFile,w);
+		
+		//retrieve one word at a time from text and search for it in array
+		//if we find a match for first letter we need to check all 8(start with four) directions
+	
+		//for(int i =0 ; i < rows; i++){
+		//	for(int j = 0; j< columns;j++){
+		//		System.out.println(puzzle[i][j]);
+		//	}
+		//}
 		
 		String word;
 		boolean found;
@@ -47,7 +65,7 @@ public class WordSearch {
 			
 searchloop:		for(int i = 0 ; i < rows ; i++){
 				for(int j = 0 ; j < columns ; j++){
-					if(puzzle[i][j] == wordArray[0]){
+					if(w.getPuzzle()[i][j] == wordArray[0]){
 						if(searchAllDir(i,j,wordArray)){
 							found = true;
 							System.out.println(word+" found starting at ("+i+","+j+")");
@@ -61,7 +79,7 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 		}
 		
 	}
-	public static char[][] setUp(File file) throws FileNotFoundException{
+	public void setUp(File file,WordSearch w) throws FileNotFoundException{
 		//creating a 2D array to represent wordsearch.
 		//initialising array to match format in text
 		Scanner fileScanner = new Scanner(file);
@@ -72,19 +90,16 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 		while(!line.isEmpty()){
 			Scanner scanner = new Scanner(line);
 			while(scanner.hasNext()){
-				puzzle[i][j] = scanner.next().charAt(0);
+				w.getPuzzle[i][j] = scanner.next().charAt(0);
 				j++;
 			}
 			j = 0;
 			i++;
 			line = fileScanner.nextLine();
 		}
-		return puzzle;
 	}
 
-	//search all eight directions off of the initial letter
-	//returns true if the word is found in one direction
-	//returns false if the word is not found in any direction
+	//initially only search four directions, north, east , south, west.
 	public static boolean searchAllDir(int x, int y, char[] wordToSearch){
 		Point north = Direction.NORTH.fromPos(x,y);
 		Point south = Direction.SOUTH.fromPos(x,y);
@@ -116,9 +131,6 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 		
 	}
 
-	//searches one of the directions until either a mismatch is found of the entire word is found
-	//returns true if all letters are matched 
-	//returns false if a mismatch is found
 	public static boolean searchOneDir(Point p, Direction d, char[] wordToSearch){
 		int i = 1;
 		while(i < wordToSearch.length){
@@ -127,19 +139,14 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 				i++;
 			}
 			else
-				return false; 	//mismatch in chars, word not found
+				return false; //mismatch in chars, word not found
 		}
-		return true; 			//no mismatches and traversed full word, so word found
+		return true; //word found
 	}
 
-	//checks whether a point is inside the boundary of the wordsearch
-	//returns true if point is inside boundary
-	//returns false if point is outside of boundary
 	public static boolean isValid(Point p){
-		if(p.x >= 0 && p.x < puzzle.length && p.y >= 0 && p.y < puzzle[0].length)
-			return true;
-		else
-			return false;
+		if(p.x >= 0 && p.x < rows && p.y >= 0 && p.y < columns){return true;}
+		else{return false;}
 	}
 
 	public enum Direction {
@@ -166,5 +173,5 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 		}
 	}
 
-    }
+}
 }
