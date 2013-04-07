@@ -1,0 +1,37 @@
+
+public class RadixSort {
+	
+	public void radixsort(ArrayList<Pair<float,String>> scores){
+
+	}
+
+
+
+
+
+
+
+
+}
+
+public class Pair<float,String> {
+    private float score;
+    private String name;
+
+    public Pair(float s, String n){
+        score = s;
+        name = n;
+    }
+    public float getScore(){ 
+	return score; 
+    }
+    public String getName(){ 	
+	return name; 
+    }
+    public void setL(float s){ 
+	score = s; 
+    }
+    public void setR(String n){	
+	name = n; 
+    }
+}

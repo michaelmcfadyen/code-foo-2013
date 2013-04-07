@@ -1,0 +1,19 @@
+public class LetterSwap {
+
+	public int swap(String a, String b){
+		System.out.println(a + " to " + b);
+		int mismatch = 0;
+		for(int i = 0 ; i < 3; i++){
+			if(a.charAt(i) != b.charAt(i)){
+				mismatch++;
+			}
+		}
+		
+		return mismatch;
+	}	
+
+	public static void main(String args[]){
+		LetterSwap s = new LetterSwap();
+		s.swap("dog", "cat");
+	}
+}

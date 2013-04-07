@@ -1,0 +1,37 @@
+import java.io.File;
+import java.util.Scanner;
+
+public class LetterSwap {
+
+	public int swap(String a, String b){
+		char[] array = a.toCharArray();
+		String[] stages = new String[4];
+		stages[0] = a;
+		int mismatch = 0;
+		
+		System.out.println("Change "+a + " to " + b);
+		
+		for(int i = 0 ; i < a.length(); i++){
+			if(array[i] != b.charAt(i)){
+				mismatch++;
+				array[i] = b.charAt(i);
+			}
+			stages[i+1] = new String(array);
+			if(i == a.length()-1){
+				System.out.printf("%s\n", stages[i]);
+			}
+			else
+				System.out.printf("%s -> ", stages[i]);
+		}
+		
+		return mismatch;
+	}	
+
+	public static void main(String args[]){
+		LetterSwap s = new LetterSwap();
+		File file = new File(System.getProperty("user.dir")+"/three-letter-words.txt.");
+		Scanner lineScanner = new Scanner(file);
+		int c = s.swap("dog", "cat");
+		System.out.println(c + " moves");
+	}
+}

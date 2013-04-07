@@ -35,7 +35,7 @@ public class WordSearch {
 		
 		String word;
 		boolean found;
-		rowScanner.nextLine();
+		rowScanner.nextLine();			//skip 'Words to find' line
 		while(rowScanner.hasNextLine()){
 			found = false;
 			word = rowScanner.nextLine();
@@ -46,9 +46,10 @@ public class WordSearch {
 searchloop:		for(int i = 0 ; i < rows ; i++){
 				for(int j = 0 ; j < columns ; j++){
 					if(puzzle[i][j] == wordArray[0]){
-						if(searchAllDir(i,j,wordArray)){
+						Direction d = searchAllDir(i,j,wordArray);
+						if(d != null){
 							found = true;
-							System.out.println(word+" found starting at ("+i+","+j+")");
+							System.out.println(word+" found starting at ("+i+","+j+") going " + d);
 							break searchloop;	//found the word, so no need to continue looking
 						}
 					}
@@ -83,7 +84,7 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 	//search all eight directions off of the initial letter
 	//returns true if the word is found in one direction
 	//returns false if the word is not found in any direction
-	public static boolean searchAllDir(int x, int y, char[] wordToSearch){
+	public static Direction searchAllDir(int x, int y, char[] wordToSearch){
 		Point north = Direction.NORTH.fromPos(x,y);
 		Point south = Direction.SOUTH.fromPos(x,y);
 		Point east = Direction.EAST.fromPos(x,y);
@@ -94,23 +95,23 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 		Point southwest = Direction.SOUTHWEST.fromPos(x,y);
 
 		if(searchOneDir(north, Direction.NORTH, wordToSearch))
-			return true;
+			return Direction.NORTH;
 		if(searchOneDir(south, Direction.SOUTH, wordToSearch))
-			return true;
+			return Direction.SOUTH;
 		if(searchOneDir(east, Direction.EAST, wordToSearch))
-			return true;
+			return Direction.EAST;
 		if(searchOneDir(west, Direction.WEST, wordToSearch))
-			return true;
+			return Direction.WEST;
 		if(searchOneDir(northeast, Direction.NORTHEAST, wordToSearch))
-			return true;
+			return Direction.NORTHEAST;
 		if(searchOneDir(northwest, Direction.NORTHWEST, wordToSearch))
-			return true;
+			return Direction.NORTHWEST;
 		if(searchOneDir(southeast, Direction.SOUTHEAST, wordToSearch))
-			return true;
+			return Direction.SOUTHEAST;
 		if(searchOneDir(southwest, Direction.SOUTHWEST, wordToSearch))
-			return true;
+			return Direction.SOUTHWEST;
 
-		return false; //no match found
+		return null; //no match found
 		
 	}
 
