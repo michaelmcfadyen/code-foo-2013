@@ -1,2 +1,0 @@
-INDEX VERSION 1.126+/users/level3/1002829m/Documents/codefoo/q3/.metadata/.plugins/org.eclipse.jdt.core
-904108176.index
