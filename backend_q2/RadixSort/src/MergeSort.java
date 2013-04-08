@@ -1,14 +1,20 @@
 import java.util.ArrayList;
-import java.util.Map;
 
 
 public class MergeSort {
-	ArrayList<Pair<Float,String>> temp = new ArrayList<Pair<Float,String>>();
-	ArrayList<Pair<Float,String>> s;
+	int [] temp;
+	int[] index;
+	ArrayList<Pair<Float,String>> scores;
 	
 	public void sort(ArrayList<Pair<Float,String>> scores){
-		s = scores;
-		mergesort(0, scores.size() - 1);
+		int len = scores.size();
+		index = new int[len];
+		for(int i = 0; i < len; i++){
+			index[i] = i;
+		}
+		temp = new int[len];
+		this.scores = scores;
+		mergesort(0, len - 1);
 	}
 	
 	private void mergesort(int low, int high){
@@ -23,33 +29,29 @@ public class MergeSort {
 	}
 	private void merge(int low, int middle, int high){
 		for(int i = low; i <= high; i++){
-			temp.add(i, s.get(i));
+			temp[i] = index[i];
 		}
 		int i = low;
 		int j = middle + 1;
 		int k = low;
 		while(i <= middle && j <= high){
-			if(temp.get(i).getScore() <= temp.get(j).getScore()){
-				s.add(k, temp.get(i));
-				s.remove(i+1);
+			if(scores.get(temp[i]).getScore() <= scores.get(temp[j]).getScore()){
+				index[k] = temp[i];
 				i++;
 			}
 			else{
-				s.add(k, temp.get(j));
-				s.remove(j+1);
+				index[k] = temp[j];
 				j++;
 			}
 			k++;
 		}
 		while(i <= middle){
-			s.add(k, temp.get(i));
-			s.remove(i+1);
+			index[k] = temp[i];
 			i++;
 			k++;
 		}
 		while(j <= high){
-			s.add(k, temp.get(j));
-			s.remove(j+1);
+			index[k] = temp[j];
 			j++;
 			k++;
 		}
@@ -65,12 +67,10 @@ public class MergeSort {
 		scores.add(new Pair<Float, String>(78, "Mike"));
 		scores.add(new Pair<Float, String>(78.7f, "Dave"));
 		m.sort(scores);
-		for(Pair p : m.s){
-			System.out.println(p.getName()+":"+p.getScore());
+		for(int i : m.index){
+			System.out.println(scores.get(i).toString());
 		}
 		
 		
 	}
 }
-
-

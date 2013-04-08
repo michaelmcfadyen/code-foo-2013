@@ -2,16 +2,18 @@ import java.util.ArrayList;
 
 
 public class MergeSort {
-	Float[] listToSort;
-	Float[] temp;
+	int [] temp;
+	int[] index;
+	ArrayList<Pair<Float,String>> scores;
 	
 	public void sort(ArrayList<Pair<Float,String>> scores){
 		int len = scores.size();
-		listToSort = new Float[len];
-		for(int i = 0; i < scores.size(); i++){
-			listToSort[i] = scores.get(i).getScore();
+		index = new int[len];
+		for(int i = 0; i < len; i++){
+			index[i] = i;
 		}
-		temp = new Float[len];
+		temp = new int[len];
+		this.scores = scores;
 		mergesort(0, len - 1);
 	}
 	
@@ -27,29 +29,29 @@ public class MergeSort {
 	}
 	private void merge(int low, int middle, int high){
 		for(int i = low; i <= high; i++){
-			temp[i] = listToSort[i];
+			temp[i] = index[i];
 		}
 		int i = low;
 		int j = middle + 1;
 		int k = low;
 		while(i <= middle && j <= high){
-			if(temp[i] <= temp[j]){
-				listToSort[k] = temp[i];
+			if(scores.get(temp[i]).getScore() <= scores.get(temp[j]).getScore()){
+				index[k] = temp[i];
 				i++;
 			}
 			else{
-				listToSort[k] = temp[j];
+				index[k] = temp[j];
 				j++;
 			}
 			k++;
 		}
 		while(i <= middle){
-			listToSort[k] = temp[i];
+			index[k] = temp[i];
 			i++;
 			k++;
 		}
 		while(j <= high){
-			listToSort[k] = temp[j];
+			index[k] = temp[j];
 			j++;
 			k++;
 		}
@@ -65,8 +67,8 @@ public class MergeSort {
 		scores.add(new Pair<Float, String>(78, "Mike"));
 		scores.add(new Pair<Float, String>(78.7f, "Dave"));
 		m.sort(scores);
-		for(Float sc : m.listToSort){
-			System.out.println(sc);
+		for(int i : m.index){
+			System.out.println(scores.get(i).toString());
 		}
 		
 		

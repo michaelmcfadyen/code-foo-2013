@@ -1,3 +1,4 @@
+
 @SuppressWarnings("hiding")
 public class Pair<Float,String> {
     private float score;
@@ -18,5 +19,8 @@ public class Pair<Float,String> {
     }
     public void setName(String n){	
     	name = n; 
+    }
+    public java.lang.String toString(){
+    	return getName() + ":" + getScore();
     }
 }
