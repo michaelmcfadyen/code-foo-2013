@@ -7,6 +7,21 @@ import java.awt.Point;
 
 public class WordSearch {
 	
+	//This solution works specifically with the .txt file you provided. Certain criteria in the .txt need to be met.
+	//
+	//There needs to be at least a space between each character in the puzzle.
+	//There needs to be an empty line followed by a word that is not to be searched eg. "Words to find:" between the
+	//puzzle and the words to find.
+	//
+	//This program outputs the starting point of the word and the direction in which it can be found.
+	//
+	//X coordinate refers to rows
+	//Y coordinate refers to columns 
+	//Origin is top left hand corner
+	//
+	//Michael McFadyen 
+	
+
 	static char[][] puzzle;
 	
 	public static void main(String args[]) throws FileNotFoundException{
@@ -38,9 +53,7 @@ public class WordSearch {
 		rowScanner.nextLine();			//skip 'Words to find' line
 		while(rowScanner.hasNextLine()){
 			found = false;
-			word = rowScanner.nextLine();
-			word = word.replaceAll("\\s","");
-			word = word.toLowerCase();
+			word = rowScanner.nextLine().replaceAll("\\s", "").toLowerCase();	//remove spaces and convert to lower case
 			char[] wordArray = word.toCharArray();
 			
 searchloop:		for(int i = 0 ; i < rows ; i++){
@@ -51,18 +64,17 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 							found = true;
 							System.out.println(word+" found starting at ("+i+","+j+") going " + d);
 							break searchloop;	//found the word, so no need to continue looking
-						}
+						}	//remove this to find all occurences of word, instead of just first occurence
 					}
-				}
-			}	
+				}//column iterator
+			}//row iterator	
 			if(!found)
 				System.out.println(word+" not found");
 		}
 		
 	}
-	public static char[][] setUp(File file) throws FileNotFoundException{
-		//creating a 2D array to represent wordsearch.
-		//initialising array to match format in text
+	//copy the wordsearch from file into the array representation of the puzzle
+	public static void setUp(File file) throws FileNotFoundException{
 		Scanner fileScanner = new Scanner(file);
 		
 		int i = 0;
@@ -78,7 +90,6 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 			i++;
 			line = fileScanner.nextLine();
 		}
-		return puzzle;
 	}
 
 	//search all eight directions off of the initial letter
@@ -119,7 +130,7 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 	//returns true if all letters are matched 
 	//returns false if a mismatch is found
 	public static boolean searchOneDir(Point p, Direction d, char[] wordToSearch){
-		int i = 1;
+		int i = 1; 				//skip first char in word as we have already found a match 
 		while(i < wordToSearch.length){
 			if(isValid(p) && wordToSearch[i] == puzzle[p.x][p.y]){
 				p = d.fromPos(p.x,p.y);
@@ -135,15 +146,13 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 	//returns true if point is inside boundary
 	//returns false if point is outside of boundary
 	public static boolean isValid(Point p){
-		if(p.x >= 0 && p.x < puzzle.length && p.y >= 0 && p.y < puzzle[0].length)
-			return true;
-		else
-			return false;
+		return p.x >= 0 && p.x < puzzle.length && p.y >= 0 && p.y < puzzle[0].length;
 	}
 
 	public enum Direction {
 	NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST;
 
+	//Generates new point in accordance to what direction you are going
 	public Point fromPos(int x, int y) {
 		switch (this) {
 		case NORTH:
