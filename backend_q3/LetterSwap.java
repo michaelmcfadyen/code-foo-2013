@@ -10,7 +10,7 @@ public class LetterSwap {
 	ArrayList<String> dictionary;
 	String start;
 	String end;
-	ArrayList<String> path;
+	//visited contains all words that we know we cannot make the end word from
 	ArrayList<String> visited = new ArrayList<String>();
 	boolean VERBOSE = false;
 
@@ -40,12 +40,34 @@ public class LetterSwap {
 			end = input.next().toLowerCase();
 		}
 		this.end = end;
-		
+
+		/*Used to traverse all possibilites
+		int found = 0;
+		int not_found = 0;
+		for(String start : dictionary){
+			this.start =start;
+			for(String end : dictionary){
+				visited = new ArrayList<String>();
+				this.end = end;
+				ArrayList<String> stages = findPath(start, end);
+				if(stages == null){
+					not_found++;
+				}
+				else{
+					found++;
+				}
+			}
+		}
+		System.out.printf("%d found : %d not found\n",found,not_found);
 		System.out.println("Change "+start + " to " + end);
-		
+		*/
+
 		//find the path from the starting word to the end word
-		ArrayList<String> stages= findPath(start, end);
-		
+		ArrayList<String> stages = findPath(start, end);
+		if(stages == null){
+			System.out.println("No solution found.");
+		}
+		else{
 		//print out results
 		System.out.println("Shortest Path");
 		for(int i = 0; i < stages.size(); i++){
@@ -55,13 +77,14 @@ public class LetterSwap {
 				System.out.printf("%s -> ", stages.get(i));
 		}
 		System.out.printf("\nIn %d moves.\n",stages.size()-1);
+		}
 	}
 	
 	public ArrayList<String> findPath(String start, String end){
 		char[] array = start.toCharArray();
 		ArrayList<String> stages = new ArrayList<String>();
 		stages.add(start);
-		
+
 		//iterate three time, one for each possible change you can make to the string
 		for(int i = 0 ; i < start.length(); i++){
 			//iterate over all chars of string
@@ -74,19 +97,25 @@ public class LetterSwap {
 					if(dictionary.contains(new String(array))){
 						stages.add(new String(array));
 						if(VERBOSE)
-							System.out.println("Is word: "+new String(array));
+							System.out.println("Is word: " + new String(array));
 					}
 					//change char back to previous char if word is not legal(not in dictionary)
-					else
+					else{
 						array[j] = start.charAt(j);
+					}
 				}
 			}
 		}
 		//if our string and end string do not match, we need to find alternative path to end string
 		if(new String(array).compareTo(end) != 0){
 			if(VERBOSE)
-				System.out.println("Failed");
-			stages.addAll(changeLetter(array, end));
+				System.out.println("Failed. Look for alternative path.");
+			visited.add(start);
+			ArrayList<String> temp = changeLetter(array, end);
+			if(temp == null)				//no solution found
+				stages = null;
+			else
+				stages.addAll(changeLetter(array, end));
 		}
 		else{
 			if(VERBOSE)
@@ -103,7 +132,7 @@ public class LetterSwap {
 		int smallest = Integer.MAX_VALUE;
 		ArrayList<String> shortestPath = new ArrayList<String>();
 		String currword = new String(array);
-		visited.add(new String(array));
+
 		
 		for(int i = 0 ; i < array.length; i++){
 			if(array[i] != end.charAt(i)){
@@ -111,15 +140,18 @@ public class LetterSwap {
 					array[i] = c;
 					if(dictionary.contains(new String(array)) && !visited.contains(new String(array))){
 						ArrayList<String> temp = findPath(new String(array),end);
-						if(temp.size() < smallest){
+						if(temp != null && temp.size() < smallest){
 							shortestPath = temp;
 							if(VERBOSE)
 								System.out.println("Size: " + temp.size());
 						}
 					}
 					array[i] = currword.charAt(i);
-					}
+				}
 			}
+		}
+		if(shortestPath.size() == 1){		//no solution found
+			return null;
 		}
 		return shortestPath;	
 	}
