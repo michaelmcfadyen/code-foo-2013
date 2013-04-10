@@ -7,78 +7,12 @@ public class LetterSwap {
 	private static char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
 											'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
 											'u', 'v', 'w', 'x', 'y', 'z' };
-	ArrayList<String> dictionary;
-	String start;
-	String end;
+	public ArrayList<String> dictionary;
+	public String start;
+	public String end;
 	//visited contains all words that we know we cannot make the end word from
-	ArrayList<String> visited = new ArrayList<String>();
+	public ArrayList<String> visited = new ArrayList<String>();
 	boolean VERBOSE = false;
-
-	public void swap() throws FileNotFoundException{
-
-		File file = new File(System.getProperty("user.dir")+"/three-letter-words.txt");
-		Scanner lineScanner = new Scanner(file);
-		dictionary = new ArrayList<String>();
-		while(lineScanner.hasNextLine()){
-			dictionary.add(lineScanner.next().toLowerCase());
-		}
-		
-		//get two words from user
-		//check if they are in dictionary(valid)
-		Scanner input = new Scanner(System.in);
-		System.out.println("Enter starting word:");
-		String start = input.next().toLowerCase();
-		while(!dictionary.contains(start)){
-			System.out.println("Enter a valid starting word:");
-			start = input.next().toLowerCase();
-		}
-		this.start = start;
-		System.out.println("Enter ending word:");
-		String end = input.next().toLowerCase();
-		while(!dictionary.contains(end)){
-			System.out.println("Enter a valid ending word:");
-			end = input.next().toLowerCase();
-		}
-		this.end = end;
-
-		/*Used to traverse all possibilites
-		int found = 0;
-		int not_found = 0;
-		for(String start : dictionary){
-			this.start =start;
-			for(String end : dictionary){
-				visited = new ArrayList<String>();
-				this.end = end;
-				ArrayList<String> stages = findPath(start, end);
-				if(stages == null){
-					not_found++;
-				}
-				else{
-					found++;
-				}
-			}
-		}
-		System.out.printf("%d found : %d not found\n",found,not_found);
-		System.out.println("Change "+start + " to " + end);
-		*/
-
-		//find the path from the starting word to the end word
-		ArrayList<String> stages = findPath(start, end);
-		if(stages == null){
-			System.out.println("No solution found.");
-		}
-		else{
-		//print out results
-		System.out.println("Shortest Path");
-		for(int i = 0; i < stages.size(); i++){
-			if(i == stages.size()-1)
-				System.out.printf("%s", stages.get(i));
-			else
-				System.out.printf("%s -> ", stages.get(i));
-		}
-		System.out.printf("\nIn %d moves.\n",stages.size()-1);
-		}
-	}
 	
 	public ArrayList<String> findPath(String start, String end){
 		char[] array = start.toCharArray();
@@ -155,10 +89,61 @@ public class LetterSwap {
 		}
 		return shortestPath;	
 	}
+	public void setStart(String s){
+		start = s;
+	}
+	public void setEnd(String e){
+		end = e;
+	}
+	public void resultsToString(ArrayList<String> results){
+		if(results == null){
+			System.out.println("No solution found.");
+		}
+		else{
+		//print out results
+		System.out.println("Shortest Path");
+		for(int i = 0; i < results.size(); i++){
+			if(i == results.size()-1)
+				System.out.printf("%s", results.get(i));
+			else
+				System.out.printf("%s -> ", results.get(i));
+		}
+		System.out.printf("\nIn %d moves.\n",results.size()-1);
+		}
+	}
 
 	public static void main(String args[]) throws FileNotFoundException{
 		LetterSwap s = new LetterSwap();
-		s.swap();
+
+		File file = new File(System.getProperty("user.dir")+"/three-letter-words.txt");
+		Scanner lineScanner = new Scanner(file);
+		s.dictionary = new ArrayList<String>();
+		while(lineScanner.hasNextLine()){
+			s.dictionary.add(lineScanner.next().toLowerCase());
+		}
+
+		//get two words from user
+		//check if they are in dictionary(valid)
+		Scanner input = new Scanner(System.in);
+		System.out.println("Enter starting word:");
+		String start = input.next().toLowerCase();
+		while(!s.dictionary.contains(start)){
+			System.out.println("Enter a valid starting word:");
+			start = input.next().toLowerCase();
+		}
+		s.setStart(start);
+		System.out.println("Enter ending word:");
+		String end = input.next().toLowerCase();
+		while(!s.dictionary.contains(end)){
+			System.out.println("Enter a valid ending word:");
+			end = input.next().toLowerCase();
+		}
+		s.setEnd(end);
+
+		//s.swap();
+
+		ArrayList<String> stages = s.findPath(start, end);
+		s.resultsToString(stages);
 
 	}
 }
