@@ -1,10 +1,9 @@
 
-@SuppressWarnings("hiding")
-public class Pair<Float,String> {
+public class HighScore {
     private float score;
     private String name;
 
-    public Pair(float s, String n){
+    public HighScore(float s, String n){
         score = s;
         name = n;
     }
