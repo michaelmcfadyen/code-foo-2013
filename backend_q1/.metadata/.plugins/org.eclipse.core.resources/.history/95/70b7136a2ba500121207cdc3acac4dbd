@@ -1,0 +1,78 @@
+import java.util.ArrayList;
+
+public class FamilyTree {
+	//could order family members in terms of generation
+	//start with members of generation 0 and increase
+	//could use binary search as a result 
+	//use merge sort already implemented to order by generation
+	//this allows me to use a binary search
+	//name search is sequential search as the array is order by generation
+	//name search is O(n) in both worst and average cases
+	
+	private static ArrayList<familyMember> familyTree; 
+	
+	public static void main(String args[]){
+		familyTree = new ArrayList<familyMember>();
+		familyMember son = new familyMember("Steve","Jones",SEX.MALE);
+		familyTree.add(son);
+		familyMember Dad = new familyMember("Dave","Jones",SEX.MALE);
+		Dad.addChild(son);
+		familyTree.add(Dad);
+		familyMember Mum = new familyMember("Susan","Jones",SEX.FEMALE);
+		Mum.addChild(son);
+		familyTree.add(Mum);
+		
+		MergeSort m = new MergeSort();
+		familyMember[] tree = m.sort(familyTree);
+		for(familyMember f : tree){
+			System.out.println(f.toString());
+		}
+		FamilyTree ft = new FamilyTree();
+		ft.
+		
+		//searchTree(Mum.getForename(), 2, familyTree);
+	}
+	public familyMember searchTree(String name,int generation, ArrayList<familyMember> tree){
+		
+		String[] names = name.split(" ");
+		String forename = names[0];
+		if(names.length > 1){
+			String surname = names[1];
+		}
+		
+		return null;
+	}
+	public ArrayList<familyMember> searchName(String forename, String surname, familyMember[] tree){
+		ArrayList<familyMember> results = new ArrayList<familyMember>();
+		for(familyMember f : tree){
+			if(f.getForename().compareTo(forename) == 0 && f.getSurname().compareTo(surname) == 0){
+				results.add(f);
+			}
+		}
+		return results;
+	}
+	public ArrayList<familyMember> searchGen(int gen, familyMember[] tree){
+		int split = tree.length / 2;
+		boolean finished = false;
+		ArrayList<familyMember> results = new ArrayList<familyMember>();
+		
+		while(finished){
+			if(tree[split].generation() < gen){
+				split += (tree.length - split) /2;
+			}
+			else if(tree[split].generation() > gen){
+				split = (tree.length - split) /2;
+			}
+			else
+				finished = true;
+		}
+		for(int i = split; tree[i].generation() == gen; i--){
+			results.add(tree[i]);
+		}
+		for(int i = split+1; tree[i].generation() == gen; i++){
+			results.add(tree[i]);
+		}
+		return results;
+	}
+
+}

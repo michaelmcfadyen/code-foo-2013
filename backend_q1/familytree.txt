@@ -1,0 +1,18 @@
+steve jones male
+Jane jones female
+Paige Pritchard Female 
+davey jones male parents steve jones Paige Pritchard
+michael jones male children steve jones 
+laura jones female children jane jones
+stephen jones male parents steve jones Paige Pritchard
+lauren jones female
+bobby jones male parents lauren jones stephen jones 
+stewie jones male parents lauren jones stephen jones 
+daniel jones male parents lauren jones stephen jones 
+
+		Michael Jones							Laura Jones	
+	      -									  -
+	Steve Jones & Paige Pritchard						Jane Jones					
+	-			   -								  
+Davey Jones 			Stephen Jones & Lauren Jones					
+			    bobby jones stewie jones daniel jones

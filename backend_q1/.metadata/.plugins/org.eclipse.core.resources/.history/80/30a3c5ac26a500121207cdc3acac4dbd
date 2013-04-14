@@ -1,0 +1,54 @@
+import java.util.ArrayList;
+
+public class FamilyTree {
+	//could order family members in terms of generation
+	//start with members of generation 0 and increase
+	//could use binary search as a result 
+	
+	public static ArrayList<familyMember> familyTree; 
+	
+	public static void main(String args[]){
+		familyTree = new ArrayList<familyMember>();
+		familyMember son = new familyMember("Steve","Jones",SEX.MALE);
+		familyTree.add(son);
+		familyMember Dad = new familyMember("Dave","Jones",SEX.MALE);
+		Dad.addChild(son);
+		familyTree.add(Dad);
+		familyMember Mum = new familyMember("Susan","Jones",SEX.FEMALE);
+		Mum.addChild(son);
+		familyTree.add(Mum);
+		
+		searchTree(Mum.getForename(),2);
+	}
+	public familyMember searchTree(String name,int generation){
+		
+		String[] names = name.split(" ");
+		String forename = names[0];
+		if(names.length > 1){
+			String surname = names[1];
+		}
+		
+		return null;
+	}
+	public familyMember searchName(String forename, String surname){
+		for(int i = 0; i < familyTree.size(); i++){
+			familyMember curr = familyTree.get(i);
+			if(curr.getForename().compareTo(forename) == 0 && curr.getSurname().compareTo(surname) == 0){
+				return curr;
+			}
+		}
+		return null;
+	}
+	public familyMember searchGen(int gen){
+		int split = familyTree.size() / 2;
+		while(!finished){
+			if(familyTree.get(split).generation() < gen){
+				split += (familyTree.size() - split) /2;
+			}
+			else if(familyTree.get(split).generation() > gen){
+				
+			}
+		}
+	}
+
+}

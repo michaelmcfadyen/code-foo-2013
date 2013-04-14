@@ -1,0 +1,15 @@
+
+public class FamilyTree {
+	
+	public static void main(String args[]){
+		familyMember son = new familyMember("Steve","Jones",SEX.MALE);
+		familyMember Dad = new familyMember("Dave","Jones",SEX.MALE);
+		Dad.addChild(son);
+		familyMember Mum = new familyMember("Susan","Jones",SEX.FEMALE);
+		Mum.addChild(son);
+		System.out.println(son.generation());
+		System.out.println(Dad.getChildren().toString());
+		System.out.println(son.getFather() + " " + son.getMother());
+	}
+
+}

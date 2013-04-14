@@ -1,0 +1,18 @@
+
+public class FamilyTree {
+	//could order family members in terms of generation
+	//start with members of generation 0 and increase
+	//could use binary search as a result 
+	public static void main(String args[]){
+		ArrayList<familyMember> familyTree = new ArrayList<familyMember>();
+		familyMember son = new familyMember("Steve","Jones",SEX.MALE);
+		familyMember Dad = new familyMember("Dave","Jones",SEX.MALE);
+		Dad.addChild(son);
+		familyMember Mum = new familyMember("Susan","Jones",SEX.FEMALE);
+		Mum.addChild(son);
+		System.out.println(son.generation());
+		System.out.println(Dad.getChildren().toString());
+		System.out.println(son.getFather() + " " + son.getMother());
+	}
+
+}

@@ -1,0 +1,51 @@
+public class MergeSort {
+	familyMember[] temp;
+	familyMember[] scoresList;
+	
+	public void sort(familyMember[] scoresls){
+		int len = scoresls.length;
+		temp = new familyMember[len];
+		scoresList = scoresls;
+		mergesort(0, len - 1);
+	}
+	
+	private void mergesort(int low, int high){
+		if(low < high){
+			int middle = (high + low) / 2;
+			mergesort(low,middle);
+			mergesort(middle + 1, high);
+			merge(low, middle, high);
+		}
+		
+
+	}
+	private void merge(int low, int middle, int high){
+		for(int i = low; i <= high; i++){
+			temp[i] = scoresList[i];
+		}
+		int i = low;
+		int j = middle + 1;
+		int k = low;
+		while(i <= middle && j <= high){
+			if(temp[i].generation() >= temp[j].generation()){
+				scoresList[k] = temp[i];
+				i++;
+			}
+			else{
+				scoresList[k] = temp[j];
+				j++;
+			}
+			k++;
+		}
+		while(i <= middle){
+			scoresList[k] = temp[i];
+			i++;
+			k++;
+		}
+		while(j <= high){
+			scoresList[k] = temp[j];
+			j++;
+			k++;
+		}
+	}
+}

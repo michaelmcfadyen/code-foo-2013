@@ -1,0 +1,11 @@
+
+public class FamilyTree {
+	
+	public static void main(String args[]){
+		familyMember Dad = new familyMember("Dave","Jones");
+		familyMember Mum = new familyMember("Susan","Jones");
+		familyMember son = new familyMember(Mum,Dad,"Steve","Jones");
+		
+	}
+
+}
