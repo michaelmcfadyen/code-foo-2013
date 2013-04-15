@@ -1,18 +1,16 @@
 steve jones male
-Jane jones female
-Paige Pritchard Female 
+Jane jones female 
+Paige Pritchard Female spouse steve jones
 davey jones male parents steve jones Paige Pritchard
 michael jones male children steve jones 
-laura free female children jane jones
+laura jones female children jane jones
 stephen jones male parents steve jones Paige Pritchard
-lauren jones female
+lauren jones female spouse stephen jones
 bobby jones male parents lauren jones stephen jones 
 stewie jones male parents lauren jones stephen jones 
 daniel jones male parents lauren jones stephen jones 
-
-		Michael Jones
-	      -
-	Steve Jones & Paige Pritchard								Laura Free	
-	-			   -								    -
-Davey Jones 			Stephen Jones & Lauren Jones					Jane Jones
-			    bobby jones stewie jones daniel jones
+lawrie mcfadyen male spouse jane jones
+Peter McFadyen male parents lawrie mcfadyen jane jones
+Paul McFadyen male parents lawrie mcfadyen jane jones
+rachael lionheart spouse michael jones
+David Sears spouse Laura Jones

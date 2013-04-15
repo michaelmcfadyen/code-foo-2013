@@ -1,4 +1,4 @@
-#Sun Apr 14 17:18:15 BST 2013
+#Sun Apr 14 21:08:00 BST 2013
 content_assist_proposals_foreground=0,0,0
 spelling_locale=en_GB
 spelling_locale_initialized=true
@@ -17,4 +17,5 @@ content_assist_proposals_background=255,255,255
 content_assist_number_of_computers=13
 useQuickDiffPrefPage=true
 org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"/>
 org.eclipse.jdt.ui.text.code_templates_migrated=true

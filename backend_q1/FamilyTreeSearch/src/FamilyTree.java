@@ -15,7 +15,8 @@ public class FamilyTree {
 	
 	//you can either search for one name, two names, generation, generation and one name or generation and two names
 	
-	private static ArrayList<familyMember> familyTree; 
+	private static ArrayList<familyMember> familyTree;
+	private static familyMember[] tree;
 	
 	public static void main(String args[]) throws FileNotFoundException{
 		familyTree = new ArrayList<familyMember>();
@@ -23,64 +24,47 @@ public class FamilyTree {
 
 		ft.setUpTree("familytree.txt");
 		
-//		familyMember son = new familyMember("Steve","Jones",SEX.MALE);
-//		familyTree.add(son);
-//		familyMember Dad = new familyMember("Dave","Jones",SEX.MALE);
-//		Dad.addChild(son);
-//		familyTree.add(Dad);
-//		familyMember Mum = new familyMember("Susan","Jones",SEX.FEMALE);
-//		Mum.addChild(son);
-//		familyTree.add(Mum);
-		
-		MergeSort m = new MergeSort();
-		familyMember[] tree = m.sort(familyTree);
-		int gen = -1;
-		for(familyMember f : tree){
-			if(f.generation() != gen){
-				gen = f.generation();
-				System.out.println("------------------");
-				System.out.println("Generation "+ gen);
-				System.out.println("------------------");
-			}
-			System.out.println(f.toString());
-		}
-		
-//		for(familyMember f: ft.searchGen(0, tree)){
-//			System.out.println("Found:"+f.toString());
-//		}
-//		System.out.println(SEX.FEMALE.toString().toLowerCase());
-//		for(familyMember f: ft.searchTree("Jones", 1, tree)){
-//			System.out.println("Found :"+f);
-//		}
-		
-	}
-	public ArrayList<familyMember> searchTree(String name,int generation, familyMember[] tree){
-		ArrayList<familyMember> results = new ArrayList<familyMember>();
-
-		ArrayList<familyMember> temp = searchGen(generation,tree);
-		
-		String[] names = name.split(" ");
-		String forename = names[0];
-		if(names.length > 1){
-			String surname = names[1];
-			for(familyMember fm : searchTwoNames(forename,surname,tree)){
-				if(temp.contains(fm)){
-					results.add(fm);
-				}
-			}
+		MergeSort m = new MergeSort(); 
+		tree = m.sort(familyTree);
+		ArrayList<familyMember> results = ft.input();
+		if(results.isEmpty()){
+			System.out.printf("--------------\nNO RESULTS\n--------------\n");;
 		}
 		else{
-			for(familyMember fm : searchOneName(forename,tree)){
-				if(temp.contains(fm)){
-					results.add(fm);
-				}
+			System.out.printf("--------------\nRESULTS\n--------------\n");
+			for(familyMember fm : results){
+				System.out.printf("%s\n",fm.toString());
 			}
 		}
+
+	}
+	public static ArrayList<familyMember> searchTree(String forename,String surname,int generation, familyMember[] tree){
+		forename.toLowerCase();
+		surname.toLowerCase();
+		ArrayList<familyMember> results = new ArrayList<familyMember>();
+		ArrayList<familyMember> nameResults = new ArrayList<familyMember>();
+		ArrayList<familyMember> temp = searchGen(generation,tree);
+		if(forename.compareTo("no") == 0 && surname.compareTo("no") != 0){
+			nameResults = searchOneName(surname,tree);
+		}
+		else if(forename.compareTo("no") != 0 && surname.compareTo("no") == 0){
+			nameResults = searchOneName(forename,tree);
+		}
+		else
+			nameResults = searchTwoNames(forename,surname,tree);
+		
+		for(familyMember fm : nameResults){
+			if(temp.contains(fm)){
+				results.add(fm);
+				}
+			}
 		return results;
 	}
 	//searches family tree for a matching forename and surname combination
 	//sequential search
-	public ArrayList<familyMember> searchTwoNames(String forename, String surname, familyMember[] tree){
+	public static ArrayList<familyMember> searchTwoNames(String forename, String surname, familyMember[] tree){
+		forename.toLowerCase();
+		surname.toLowerCase();
 		ArrayList<familyMember> results = new ArrayList<familyMember>();
 		for(familyMember f : tree){
 			if(f.getForename().compareTo(forename) == 0 && f.getSurname().compareTo(surname) == 0){
@@ -91,7 +75,8 @@ public class FamilyTree {
 	}
 	//searches family tree for a matching name. Can be either forename or surname
 	//sequential search
-	public ArrayList<familyMember> searchOneName(String name, familyMember[] tree){
+	public static ArrayList<familyMember> searchOneName(String name, familyMember[] tree){
+		name.toLowerCase();
 		ArrayList<familyMember> results = new ArrayList<familyMember>();
 		for(familyMember f : tree){
 			if(f.getForename().compareTo(name) == 0 || f.getSurname().compareTo(name) == 0){
@@ -102,20 +87,20 @@ public class FamilyTree {
 	}
 	//searches family tree for all persons of a certain generation
 	//binary search
-	public ArrayList<familyMember> searchGen(int gen, familyMember[] tree){
+	private static ArrayList<familyMember> searchGen(int gen, familyMember[] tree){
 		int split = tree.length / 2;
-		boolean finished = false;
+		boolean finished = true;
 		ArrayList<familyMember> results = new ArrayList<familyMember>();
-		
 		while(finished){
 			if(tree[split].generation() < gen){
 				split += (tree.length - split) /2;
 			}
 			else if(tree[split].generation() > gen){
-				split = (tree.length - split) /2;
+				split = split /2;
 			}
-			else
-				finished = true;
+			else{
+				finished = false;
+			}
 		}
 		for(int i = split; i >= 0 && tree[i].generation() == gen; i--){
 			results.add(tree[i]);
@@ -124,6 +109,105 @@ public class FamilyTree {
 			results.add(tree[i]);
 		}
 		return results;
+	}
+	
+	public ArrayList<familyMember> input(){
+		ArrayList<familyMember> results = new ArrayList<familyMember>();
+		Scanner input = new Scanner(System.in);
+		System.out.println("Would you like to:\n1.Search by name\n2.Search by generation\n3.Search by both name and genration\n4.Display family tree.\n");
+		int selection = input.nextInt();
+		if(selection == 1){
+			String fore = userForename(input);
+			String sur = userSurname(input);
+			if(fore.compareTo("no") == 0)
+				results = searchOneName(sur,tree);
+			else if(sur.compareTo("no") == 0)
+				results = searchOneName(fore,tree);
+			else if(sur.compareTo("no") == 0 && fore.compareTo("no") == 0){
+				System.out.println("No names entered");
+				System.exit(1);
+			}
+			else
+				results = searchTwoNames(fore,sur,tree);
+		}
+		else if(selection == 2){
+			int generation = userGeneration(input);
+			results = searchGen(generation,tree);
+		}
+		else if(selection == 3){
+			String fore = userForename(input);
+			String sur = userSurname(input);
+			int gen = userGeneration(input);
+			results = searchTree(fore,sur,gen,tree);
+		}
+		else if(selection == 4){
+			displayTree();
+		}
+		else{
+			System.out.println("Entered an invalid number.");
+			System.exit(1);
+		}
+		return results;
+	}
+	private static void displayTree(){
+		ArrayList<familyMember> temp = new ArrayList<familyMember>();
+		for(familyMember m : tree){
+			temp.add(m);
+		}
+		
+		ArrayList<familyMember> kids = new ArrayList<familyMember>();
+		
+		int gen = -1;
+		for(familyMember fm : temp){
+			kids.add(fm);
+			if(fm.getSpouse() != null)
+				System.out.println(fm.nameToString() +" & "+fm.getSpouse().nameToString());
+			else
+				System.out.println(fm.nameToString());
+			while(!kids.isEmpty()){
+				kids.remove(0);
+				temp.remove(fm);		
+				for(familyMember child : fm.getChildren()){
+					if(child.getSpouse() != null)
+						System.out.printf("\t%s & %s",child.nameToString(),child.getSpouse().nameToString());
+					else
+						System.out.printf("\t%s ",child.nameToString());
+				}
+				System.out.println();
+				kids.addAll(fm.getChildren());
+				if(!kids.isEmpty())
+					fm = kids.get(0);
+			}
+//			if(fm.generation() != gen){
+//				gen = fm.generation();
+//				System.out.printf("\ngen "+gen);
+//			}
+//			System.out.printf(" %s\t",fm.nameToString());
+		}
+	}
+	private static String userForename(Scanner input){
+		System.out.println("Enter Forename(no to skip):");
+		String fore = "";
+		if(input.hasNext());
+			fore = input.next();
+		return fore;
+	}
+	private static String userSurname(Scanner input){
+		System.out.println("Enter Surname(no to skip):");
+		String sur = "";
+		if(input.hasNext());
+			sur = input.next();
+		return sur;
+	}
+	private static int userGeneration(Scanner input){
+		System.out.println("Enter Generation:");
+		int gen = -1;
+		while(!input.hasNextInt()){
+			System.out.println("Enter generation(int):");
+			input.next();
+		}
+		gen = input.nextInt();
+		return gen;
 	}
 	
 	
@@ -156,6 +240,7 @@ public class FamilyTree {
 				familyMember mother = null;
 				familyMember father = null;
 				ArrayList<familyMember> children = new ArrayList<familyMember>();
+				familyMember spouse = null;
 				while(lineScanner.hasNext()){
 					if(section.compareTo("parents") == 0 ){
 						String motherfore = lineScanner.next().toLowerCase();
@@ -180,13 +265,31 @@ public class FamilyTree {
 							}
 						}
 					}
+					else if(section.compareTo("spouse") == 0){
+						String fore = lineScanner.next().toLowerCase();
+						String sur = lineScanner.next().toLowerCase();
+						for(familyMember fm : familyTree){
+							if(fm.getForename().compareTo(fore) == 0 && fm.getSurname().compareTo(sur) == 0){
+								spouse = fm;
+								break;
+							}
+						}
+						if(spouse == null)
+							System.out.println("Spouse not in family tree");
+					}
 					else{
-						System.out.printf("%s is invalid\n'parent|children'\n", section);
+						System.out.printf("%s is invalid\n'parent|children|spouse'\n", section);
 						System.exit(0);
 					}
 				}
-				familyMember curr;
-				if(mother == null || father == null){
+				familyMember curr = null;
+				if(spouse != null && familyTree.contains(new familyMember(forename,surname,s))){
+					familyTree.get(familyTree.indexOf(new familyMember(forename,surname,s))).setSpouse(spouse);
+				}
+				else if(spouse != null && !familyTree.contains(new familyMember(forename,surname,s))){
+					curr = new familyMember(forename, surname, spouse, s);
+				}
+				else if(spouse == null && (mother == null || father == null)){
 					curr = new familyMember(forename,surname,s);
 				}
 				else{
