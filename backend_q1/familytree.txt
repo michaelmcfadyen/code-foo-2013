@@ -14,3 +14,5 @@ Peter McFadyen male parents lawrie mcfadyen jane jones
 Paul McFadyen male parents lawrie mcfadyen jane jones
 rachael lionheart female spouse michael jones
 David Sears male spouse Laura Jones
+James Jones male children Michael jones Laura Jones
+Mary stevens female spouse James jones

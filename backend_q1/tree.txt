@@ -1,10 +1,12 @@
-gen0			Michael Jones & Rachael Lionheart				Laura Jones & David Sears	
-	     	 -									  -
-gen1		Steve Jones & Paige Pritchard						Jane Jones & Lawrie McFadyen				
-		-			   -							     -  
-gen2	Davey Jones 			Stephen Jones & Lauren Jones			Peter McFadyen - Paul McFadyen
+gen0							James Jones & Mary Stevens
 
-gen3			   	 bobby jones - stewie jones - daniel jones
+gen1			Michael Jones & Rachael Lionheart				Laura Jones & David Sears	
+	     	 -									  -
+gen2		Steve Jones & Paige Pritchard						Jane Jones & Lawrie McFadyen				
+		-			   -							     -  
+gen3	Davey Jones 			Stephen Jones & Lauren Jones			Peter McFadyen - Paul McFadyen
+
+gen4			   	 bobby jones - stewie jones - daniel jones
 
 
 & = marriage
