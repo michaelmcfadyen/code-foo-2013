@@ -1,6 +1,0 @@
-
-public class Sex {
-	private enum SEX{
-		MALE, FEMALE;
-	}
-}

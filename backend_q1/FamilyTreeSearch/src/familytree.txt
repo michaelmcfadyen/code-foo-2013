@@ -1,5 +1,0 @@
-steve jones male
-Jane jones female
-davey jones male parents steve jones JANE JONES
-michael jones male children steve JONES 
-laura free female children JAne Jones
