@@ -55,7 +55,6 @@ public class MergeSort {
 		}
 	}
 	//args - [file|user]
-	//we are unsure the size of the array as we do not know how the highscores will be read in.
 	public static void main(String args[]) throws FileNotFoundException{
 		MergeSort m = new MergeSort();
 		HighScore[] scores = new HighScore[0];
