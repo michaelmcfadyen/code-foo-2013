@@ -30,7 +30,9 @@ File argument: This allows you to input the name of a .txt file in the current d
 
 The file must fit the format:
 score name
+
 score name
+
 ...
 
 The program outputs the highscore table with highest score at the top,

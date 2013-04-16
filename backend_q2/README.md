@@ -29,6 +29,7 @@ User argument: This allows you to input the scores and names of the players by h
 File argument: This allows you to input the name of a .txt file in the current directory that has the highscores you want to sort.(eg. scores.txt)
 
 The file must fit the format:
+
 score name
 
 score name
