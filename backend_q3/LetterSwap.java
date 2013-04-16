@@ -7,12 +7,11 @@ public class LetterSwap {
 	private static char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
 											'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
 											'u', 'v', 'w', 'x', 'y', 'z' };
-	public ArrayList<String> dictionary;
+	public ArrayList<String> dictionary;	//stores all legal three letter words
 	public String start;
 	public String end;
-	//visited contains all words that we know we cannot make the end word from
-	public ArrayList<String> visited = new ArrayList<String>();
-	boolean VERBOSE = false;
+	public ArrayList<String> visited = new ArrayList<String>();	//visited contains all words that we know we cannot make the end word from
+	boolean VERBOSE = false;		//used for testing purposes
 	
 	public ArrayList<String> findPath(String start, String end){
 		char[] array = start.toCharArray();
@@ -21,7 +20,7 @@ public class LetterSwap {
 
 		//iterate three time, one for each possible change you can make to the string
 		for(int i = 0 ; i < start.length(); i++){
-			//iterate over all chars of string
+			//iterate over all chars of string each time
 			for(int j = 0; j < start.length(); j++){
 				//if char differs from char in end word, replace it 
 				if(array[j] != end.charAt(j)){
@@ -39,7 +38,7 @@ public class LetterSwap {
 					}
 				}
 			}
-		}
+		}//make at most three changes to obtain end word
 		//if our string and end string do not match, we need to find alternative path to end string
 		if(new String(array).compareTo(end) != 0){
 			if(VERBOSE)
@@ -58,11 +57,11 @@ public class LetterSwap {
 		return stages;
 	}
 	
-	//swaps out char that is different from the end string with every letter in alphabet
-	//if this creates a valid word, then find the path between the new word and the end word
+	//swaps out each char that is different to the end string with every letter in the alphabet
+	//if this creates a valid word, then find the path between the new word created and the end word
 	//keep track of the shortest path found to the end word
-	//keep track of all the words that have been visited and do not provide a solution
-	public ArrayList<String> changeLetter(char[] array, String end){
+	//keep track of all the words that have been visited and do not provide a path to the end word directory
+	private ArrayList<String> changeLetter(char[] array, String end){
 		int smallest = Integer.MAX_VALUE;
 		ArrayList<String> shortestPath = new ArrayList<String>();
 		String currword = new String(array);
@@ -80,7 +79,8 @@ public class LetterSwap {
 								System.out.println("Size: " + temp.size());
 						}
 					}
-					array[i] = currword.charAt(i);
+					else
+						array[i] = currword.charAt(i);
 				}
 			}
 		}
@@ -95,7 +95,7 @@ public class LetterSwap {
 	public void setEnd(String e){
 		end = e;
 	}
-	public void resultsToString(ArrayList<String> results){
+	private void resultsToString(ArrayList<String> results){
 		if(results == null){
 			System.out.println("No solution found.");
 		}
@@ -115,6 +115,7 @@ public class LetterSwap {
 	public static void main(String args[]) throws FileNotFoundException{
 		LetterSwap s = new LetterSwap();
 
+		//read in all legal three letter words into dictionary
 		File file = new File(System.getProperty("user.dir")+"/three-letter-words.txt");
 		Scanner lineScanner = new Scanner(file);
 		s.dictionary = new ArrayList<String>();
@@ -139,8 +140,6 @@ public class LetterSwap {
 			end = input.next().toLowerCase();
 		}
 		s.setEnd(end);
-
-		//s.swap();
 
 		ArrayList<String> stages = s.findPath(start, end);
 		s.resultsToString(stages);
