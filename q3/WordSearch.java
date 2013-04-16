@@ -96,31 +96,10 @@ searchloop:		for(int i = 0 ; i < rows ; i++){
 	//returns true if the word is found in one direction
 	//returns false if the word is not found in any direction
 	public static Direction searchAllDir(int x, int y, char[] wordToSearch){
-		Point north = Direction.NORTH.fromPos(x,y);
-		Point south = Direction.SOUTH.fromPos(x,y);
-		Point east = Direction.EAST.fromPos(x,y);
-		Point west = Direction.WEST.fromPos(x,y);
-		Point northeast = Direction.NORTHEAST.fromPos(x,y);
-		Point northwest = Direction.NORTHWEST.fromPos(x,y);
-		Point southeast = Direction.SOUTHEAST.fromPos(x,y);
-		Point southwest = Direction.SOUTHWEST.fromPos(x,y);
-
-		if(searchOneDir(north, Direction.NORTH, wordToSearch))
-			return Direction.NORTH;
-		if(searchOneDir(south, Direction.SOUTH, wordToSearch))
-			return Direction.SOUTH;
-		if(searchOneDir(east, Direction.EAST, wordToSearch))
-			return Direction.EAST;
-		if(searchOneDir(west, Direction.WEST, wordToSearch))
-			return Direction.WEST;
-		if(searchOneDir(northeast, Direction.NORTHEAST, wordToSearch))
-			return Direction.NORTHEAST;
-		if(searchOneDir(northwest, Direction.NORTHWEST, wordToSearch))
-			return Direction.NORTHWEST;
-		if(searchOneDir(southeast, Direction.SOUTHEAST, wordToSearch))
-			return Direction.SOUTHEAST;
-		if(searchOneDir(southwest, Direction.SOUTHWEST, wordToSearch))
-			return Direction.SOUTHWEST;
+		for(Direction dir : Direction.values()){
+			if(searchOneDir(dir.fromPos(x,y), dir, wordToSearch))
+				return dir;
+		}
 
 		return null; //no match found
 		
