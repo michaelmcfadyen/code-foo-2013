@@ -29,13 +29,15 @@ public class FamilyTree {
 		}
 
 	}
+
 	/* *** SEARCH METHODS *** */
+
 	//using both sequential search and binary search
+	//allows search for both name and generation
 	public static ArrayList<familyMember> searchTree(String forename,String surname,int generation, familyMember[] tree){
-		forename.toLowerCase();
-		surname.toLowerCase();
 		ArrayList<familyMember> results = new ArrayList<familyMember>();
 		ArrayList<familyMember> nameResults = new ArrayList<familyMember>();
+
 		ArrayList<familyMember> temp = searchGen(generation,tree);
 		if(forename.compareTo("no") == 0 && surname.compareTo("no") != 0){
 			nameResults = searchOneName(surname,tree);
@@ -45,7 +47,8 @@ public class FamilyTree {
 		}
 		else
 			nameResults = searchTwoNames(forename,surname,tree);
-		
+		//compare generation search results with name search results
+		//when a match is found, add it to the final results
 		for(familyMember fm : nameResults){
 			if(temp.contains(fm)){
 				results.add(fm);
@@ -56,8 +59,8 @@ public class FamilyTree {
 	//searches family tree for a matching forename and surname combination
 	//sequential search
 	public static ArrayList<familyMember> searchTwoNames(String forename, String surname, familyMember[] tree){
-		forename.toLowerCase();
-		surname.toLowerCase();
+		forename = forename.toLowerCase();
+		surname = surname.toLowerCase();
 		ArrayList<familyMember> results = new ArrayList<familyMember>();
 		for(familyMember f : tree){
 			if(f.getForename().compareTo(forename) == 0 && f.getSurname().compareTo(surname) == 0){
@@ -69,7 +72,7 @@ public class FamilyTree {
 	//searches family tree for a matching name. Can be either forename or surname
 	//sequential search
 	public static ArrayList<familyMember> searchOneName(String name, familyMember[] tree){
-		name.toLowerCase();
+		name = name.toLowerCase();
 		ArrayList<familyMember> results = new ArrayList<familyMember>();
 		for(familyMember f : tree){
 			if(f.getForename().compareTo(name) == 0 || f.getSurname().compareTo(name) == 0){
@@ -95,6 +98,7 @@ public class FamilyTree {
 				finished = false;
 			}
 		}
+		//search either side of split to retrieve all persons of generation gen
 		for(int i = split; i >= 0 && tree[i].generation() == gen; i--){
 			results.add(tree[i]);
 		}
@@ -170,9 +174,10 @@ public class FamilyTree {
 		gen = input.nextInt();
 		return gen;
 	}
+	/* *** END OF INPUT HANDLING *** */
+
 	
-	
-	/* *** FILE HANDLING *** NOT OPTIMISED */
+	/* *** FILE HANDLING *** NOT OPTIMISED & MESSY - APOLOGIES */
 	
 	//file format either
 	//forname surname sex

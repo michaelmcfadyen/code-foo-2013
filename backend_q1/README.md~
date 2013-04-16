@@ -33,7 +33,7 @@ java FamilyTree
 
 Here you will be given three options on how to search the family tree.
 
-The program will output the names and details of the family members it finds. It will output "NO RESULTS" if no family member was found/
+The program will output the names and details of the family members it finds. It will output "NO RESULTS" if no family member was found.
 
 Thanks,
 
