@@ -2,7 +2,7 @@ The file LetterSwap.java contains my solution for Backend Question 3.
 
 To compile execute: 
 ```
-'javac LetterSwap.java 
+javac LetterSwap.java 
 ```
 
 
