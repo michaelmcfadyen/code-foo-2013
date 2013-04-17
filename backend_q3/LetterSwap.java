@@ -48,7 +48,7 @@ public class LetterSwap {
 			if(temp == null)				//no solution found
 				stages = null;
 			else
-				stages.addAll(changeLetter(array, end));
+				stages.addAll(temp);
 		}
 		else{
 			if(VERBOSE)
@@ -70,21 +70,23 @@ public class LetterSwap {
 		for(int i = 0 ; i < array.length; i++){
 			if(array[i] != end.charAt(i)){
 				for(char c: alphabet){
-					array[i] = c;
+					if(array[i] != c){
+						array[i] = c;
 					if(dictionary.contains(new String(array)) && !visited.contains(new String(array))){
 						ArrayList<String> temp = findPath(new String(array),end);
 						if(temp != null && temp.size() < smallest){
 							shortestPath = temp;
+							smallest = shortestPath.size();
 							if(VERBOSE)
 								System.out.println("Size: " + temp.size());
 						}
 					}
-					else
-						array[i] = currword.charAt(i);
+					array[i] = currword.charAt(i);
+					}
 				}
 			}
 		}
-		if(shortestPath.size() == 1){		//no solution found
+		if(shortestPath.size() == 1 || shortestPath.isEmpty()){		//no solution found
 			return null;
 		}
 		return shortestPath;	
