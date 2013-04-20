@@ -20,6 +20,6 @@ public class HighScore {
     	name = n; 
     }
     public java.lang.String toString(){
-    	return getName() + ":" + getScore();
+    	return getName().toUpperCase() + "\t:\t" + getScore();
     }
 }

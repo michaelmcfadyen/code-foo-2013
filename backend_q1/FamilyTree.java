@@ -23,8 +23,10 @@ public class FamilyTree {
 		}
 		else{
 			System.out.printf("--------------\nRESULTS\n--------------\n");
+			int i = 1;
 			for(familyMember fm : results){
-				System.out.printf("%s\n",fm.toString());
+				System.out.printf("%d. %s\n",i,fm.toString());
+				i++;
 			}
 		}
 
@@ -113,7 +115,8 @@ public class FamilyTree {
 	private ArrayList<familyMember> input(){
 		ArrayList<familyMember> results = new ArrayList<familyMember>();
 		Scanner input = new Scanner(System.in);
-		System.out.println("Would you like to:\n1.Search by name\n2.Search by generation\n3.Search by both name and genration\n");
+		System.out.println("Would you like to:\n1.Search by name\n2.Search by generation\n3.Search by both name and genration\n4.Display"+
+									" family members\n");
 		while(!input.hasNextInt()){
 			input.next();
 			System.out.println("Please enter an integer:");
@@ -143,11 +146,24 @@ public class FamilyTree {
 			int gen = userGeneration(input);
 			results = searchTree(fore,sur,gen,tree);
 		}
+		else if(selection == 4){
+			printTree();
+		}
 		else{
 			System.out.println("Entered an invalid number.\nGoodbye");
 			System.exit(1);
 		}
 		return results;
+	}
+	private static void printTree(){
+		int gen = -1;
+		for(familyMember fm: tree){
+			if(fm.generation() != gen){
+				gen++;
+				System.out.printf("\nGENERATION %d\n",gen);
+			}
+			System.out.println(fm.toString());
+		}
 	}
 
 	private static String userForename(Scanner input){

@@ -17,6 +17,9 @@ public class LetterSwap {
 		char[] array = start.toCharArray();
 		ArrayList<String> stages = new ArrayList<String>();
 		stages.add(start);
+		
+		if(start.compareTo(end) == 0)
+			return stages;			
 
 		//iterate three time, one for each possible change you can make to the string
 		for(int i = 0 ; i < start.length(); i++){
@@ -60,13 +63,13 @@ public class LetterSwap {
 	//swaps out each char that is different to the end string with every letter in the alphabet
 	//if this creates a valid word, then find the path between the new word created and the end word
 	//keep track of the shortest path found to the end word
-	//keep track of all the words that have been visited and do not provide a path to the end word directory
+	//keep track of all the words that have been visited and do not provide a path to the end word directly
 	private ArrayList<String> changeLetter(char[] array, String end){
 		int smallest = Integer.MAX_VALUE;
 		ArrayList<String> shortestPath = new ArrayList<String>();
 		String currword = new String(array);
-
-		
+		ArrayList<String> makeWords = new ArrayList<String>();
+			
 		for(int i = 0 ; i < array.length; i++){
 			if(array[i] != end.charAt(i)){
 				for(char c: alphabet){
@@ -87,7 +90,13 @@ public class LetterSwap {
 			}
 		}
 		if(shortestPath.size() == 1 || shortestPath.isEmpty()){		//no solution found
+			visited.add(new String(array));
 			return null;
+		}
+		for(String s : shortestPath){
+			if(visited.contains(s)){
+				visited.remove(visited.indexOf(s));
+			}
 		}
 		return shortestPath;	
 	}

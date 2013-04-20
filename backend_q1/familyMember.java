@@ -39,12 +39,12 @@ public class familyMember {
 		mother = null;
 		father = null;
 		children = new ArrayList<familyMember>();
-		for(familyMember fm : sp.getChildren()){
-			this.addChild(fm);
-		}
 		spouse = sp;
 		sp.setSpouse(this);
 		this.sex = sex;
+		for(familyMember fm : sp.getChildren()){
+			this.addChild(fm);
+		}
 	}
 	/* MUTATOR METHODS */
 	public void setForename(String f){
@@ -124,18 +124,11 @@ public class familyMember {
 	}
 	public void addChild(familyMember child){
 		children.add(child);
-		if(getSex() == SEX.MALE && child.getFather() == null)
+		if(this.getSex() == SEX.MALE && child.getFather() == null)
 			child.setFather(this);
 		else if(getSex() == SEX.FEMALE && child.getMother() == null)
 			child.setMother(this);
 		else ;
-	}
-	public int noDescendants(){
-		int descendants = children.size();
-		for(int i = 0 ; i < children.size(); i++){
-			descendants += children.get(i).noDescendants();
-		}
-		return descendants;
 	}
 	public String toString(){
 		String mother;
@@ -155,7 +148,7 @@ public class familyMember {
 			spouse = "";
 		else
 			spouse = getSpouse().nameToString();
-		return getForename() + " " + getSurname() + " - Generation: " + generation() + " - Sex: "+getSex()+
+		return getForename().toUpperCase() + " " + getSurname().toUpperCase() + " - Sex: "+getSex()+
 				" - Parents: "+mother + " & "+father +
 				" - Spouse: "+spouse + " - NoOfChildren: " + getChildren().size();
 	}
