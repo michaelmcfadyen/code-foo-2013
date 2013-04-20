@@ -14,7 +14,7 @@ So instead I represented the family tree as an array list ordered by generation(
 Input
 -----
 
-The problem did not define what the input was or how it was to be inputted. This made the consruction of the family tree rather tricky and resulting in myself writing a rather tedious and overcomplicated input method. The file 'familytree.txt' is the input file for this program and creates the tree display in the file 'tree.txt'. Unfortunately, I did not have the time to give the user an option in the program to display the tree so instead there is an option to print each details about each family member, grouped by generation. Hope this helps.
+The problem did not define what the input was or how it was to be inputted. This made the consruction of the family tree rather tricky and resulting in myself writing a rather tedious and overcomplicated input method. The file 'familytree.txt' is the input file for this program and creates the tree display in the file 'tree.txt'. Unfortunately, I did not have the time to give the user an option in the program to display the tree.
 
 Running the Program
 -------------------
